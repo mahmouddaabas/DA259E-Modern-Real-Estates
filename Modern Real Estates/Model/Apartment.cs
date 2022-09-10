@@ -14,6 +14,12 @@ namespace Modern_Real_Estates.Model
 
         }
 
-        public int Floor { get; set; }
+        public Apartment(int id, String category, String type, Address address, Image image, string rent)
+            : base(id, category, type, address, image)
+        {
+            this.rent = rent;
+        }
+
+        public string rent { get; set; }
     }
 }

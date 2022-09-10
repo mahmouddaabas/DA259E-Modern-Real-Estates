@@ -14,6 +14,12 @@ namespace Modern_Real_Estates.Model
 
         }
 
-        public float Stock { get; set; }
+        public Shop(int id, String category, String type, Address address, Image image, string wares)
+            : base(id, category, type, address, image)
+        {
+            this.wares = wares;
+        }
+
+        public string wares { get; set; }
     }
 }

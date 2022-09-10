@@ -22,7 +22,7 @@ namespace Modern_Real_Estates.Model
 
         public int ID { get; set; }
         public Address Address { get; set; }
-        public String Category { get; set; }
+        public string Category { get; set; }
         public string Type { get; set; }
         public Image Image { get; set; }
     }

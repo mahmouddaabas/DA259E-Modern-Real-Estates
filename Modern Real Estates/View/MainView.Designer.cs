@@ -39,6 +39,7 @@
             this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
             this.type_lbl = new System.Windows.Forms.Label();
             this.type_txt = new System.Windows.Forms.ComboBox();
@@ -53,6 +54,8 @@
             this.zip_txt = new System.Windows.Forms.TextBox();
             this.country_txt = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.specificprop_txt = new System.Windows.Forms.TextBox();
+            this.specificprop_lbl = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // add_btn
@@ -94,7 +97,8 @@
             this.columnHeader3,
             this.columnHeader4,
             this.columnHeader5,
-            this.columnHeader6});
+            this.columnHeader6,
+            this.columnHeader7});
             this.list.Location = new System.Drawing.Point(-2, 1);
             this.list.Name = "list";
             this.list.Size = new System.Drawing.Size(831, 353);
@@ -137,6 +141,11 @@
             this.columnHeader6.Text = "Zip Code";
             this.columnHeader6.Width = 80;
             // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "Specifics";
+            this.columnHeader7.Width = 80;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -171,6 +180,7 @@
             this.type_txt.Name = "type_txt";
             this.type_txt.Size = new System.Drawing.Size(97, 23);
             this.type_txt.TabIndex = 7;
+            this.type_txt.SelectedIndexChanged += new System.EventHandler(this.type_txt_SelectedIndexChanged);
             // 
             // legalform_lbl
             // 
@@ -277,11 +287,30 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // specificprop_txt
+            // 
+            this.specificprop_txt.Location = new System.Drawing.Point(285, 396);
+            this.specificprop_txt.Name = "specificprop_txt";
+            this.specificprop_txt.Size = new System.Drawing.Size(100, 23);
+            this.specificprop_txt.TabIndex = 20;
+            // 
+            // specificprop_lbl
+            // 
+            this.specificprop_lbl.AutoSize = true;
+            this.specificprop_lbl.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.specificprop_lbl.Location = new System.Drawing.Point(211, 396);
+            this.specificprop_lbl.Name = "specificprop_lbl";
+            this.specificprop_lbl.Size = new System.Drawing.Size(45, 21);
+            this.specificprop_lbl.TabIndex = 21;
+            this.specificprop_lbl.Text = "Type:";
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 599);
+            this.Controls.Add(this.specificprop_lbl);
+            this.Controls.Add(this.specificprop_txt);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.country_txt);
             this.Controls.Add(this.zip_txt);
@@ -334,5 +363,8 @@
         private ColumnHeader columnHeader6;
         private ColumnHeader columnHeader8;
         private Button button1;
+        private ColumnHeader columnHeader7;
+        private TextBox specificprop_txt;
+        private Label specificprop_lbl;
     }
 }

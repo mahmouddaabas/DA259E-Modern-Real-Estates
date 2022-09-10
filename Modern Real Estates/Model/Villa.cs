@@ -11,7 +11,14 @@ namespace Modern_Real_Estates.Model
         public Villa(int id, String category, String type, Address address, Image image)
             : base(id, category, type, address, image)
         {
-
         }
+
+        public Villa(int id, String category, String type, Address address, Image image, string rooms)
+            : base(id, category, type, address, image)
+        {
+            this.rooms = rooms;
+        }
+
+        public string rooms { get; set; }
     }
 }

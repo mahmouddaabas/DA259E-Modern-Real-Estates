@@ -17,57 +17,40 @@ namespace Modern_Real_Estates
             populateCountryList();
         }
 
-        //Todo, do this through the controller instead.
+        //Create a estate object through the controller and add to the list when returned.
         private void add_btn_Click(object sender, EventArgs e)
         {
+            //Creates the estate object
             try
             {
-            int option = type_txt.SelectedIndex;
-            switch (option)
-            {
-                case 0:
-                    //Institu
-                    Image newImage = Image.FromFile(selectedImage);
-                    Address address = new Address(street_txt.Text, city_txt.Text, zip_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)));
-                    Institutional institutional = new Institutional(id, type_txt.GetItemText(type_txt.SelectedItem), legalform_txt.GetItemText(legalform_txt.SelectedItem), address, newImage);
+              Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificprop_txt.Text);
 
-                    var imageList = new ImageList();
-                    imageList.Images.Add("pic1", newImage);
-                    list.SmallImageList = imageList;
-
-                    ListViewItem institution = new ListViewItem(Convert.ToString(id));
-                    institution.SubItems.Add(institutional.print()[1]);
-                    institution.SubItems.Add(institutional.print()[2]);
-                    institution.SubItems.Add(institutional.print()[3]);
-                    institution.SubItems.Add(institutional.print()[4]);
-                    institution.SubItems.Add(institutional.print()[6]);
-                    institution.SubItems.Add(institutional.print()[5]);
-                    institution.ImageKey = "pic1";
-
-                    list.Items.Add(institution);
-                    id++;
-
-                    break;
-                case 1:
-                    //Residential
-                    break;
-                case 2:
-                    //Commercial
-                    break;
-
-                case 3:
-                    //Residential
-                    break;
-            }
+              //Sends the returned estate object through the parameter to add it to the list.
+              AddToList(estate);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Add an image!");
+                MessageBox.Show("You need to add an image!");
             }
         }
 
+        //Change the information of the selected estate in the list.
         private void change_btn_Click(object sender, EventArgs e)
         {
+            try
+            {
+                list.SelectedItems[0].SubItems[1].Text = type_txt.Text;
+                list.SelectedItems[0].SubItems[2].Text = legalform_txt.Text;
+                list.SelectedItems[0].SubItems[3].Text = street_txt.Text;
+                list.SelectedItems[0].SubItems[4].Text = zip_txt.Text;
+                list.SelectedItems[0].SubItems[5].Text = city_txt.Text;
+                list.SelectedItems[0].SubItems[6].Text = country_txt.Text;
+                list.SelectedItems[0].SubItems[7].Text = specificprop_lbl.Text+" " + specificprop_txt.Text;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Select something from the list to edit by pressing on the ID.");
+            }
         }
 
         //Method to populate the country list combobox from the countries enum.
@@ -85,13 +68,51 @@ namespace Modern_Real_Estates
 
         private void delete_btn_Click(object sender, EventArgs e)
         {
-
-        }
+            try { 
+            list.Items.Remove(list.SelectedItems[0]);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Select something from the list to delete by pressing on the ID.");
+            }
+}
 
         //Method to add entries to the list.
-        private void AddToList()
+        private void AddToList(Estate estate)
         {
+            var imageList = new ImageList();
+            imageList.Images.Add("pic1", Image.FromFile(selectedImage));
+            list.SmallImageList = imageList;
 
+            ListViewItem estatelist = new ListViewItem(Convert.ToString(id));
+            for (int i = 1; i < estate.print().Length; i++)
+            {
+                estatelist.SubItems.Add(estate.print()[i]);
+            }
+
+            //Find out which property of a subclass to add based on the type of estate.
+            switch (estate.print()[1])
+            {
+                case "Warehouse":
+                    estatelist.SubItems.Add(specificprop_lbl.Text +" " + ((Warehouse)estate).items);
+                    break;
+                case "Apartment":
+                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Apartment)estate).rent);
+                    break;
+                case "Villa":
+                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Villa)estate).rooms);
+                    break;
+                case "Shop":
+                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Shop)estate).wares);
+                    break;
+                default:
+                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + estatelist.SubItems.Add("None"));
+                    break;
+
+            }
+            estatelist.ImageKey = "pic1";
+            list.Items.Add(estatelist);
+            id++;
         }
 
         //Method that enables adding an image.
@@ -108,6 +129,26 @@ namespace Modern_Real_Estates
             {
                 string selectedFileName = openFileDialog1.FileName;
                 selectedImage = selectedFileName;
+            }
+        }
+
+        //Shows the specific attribute based on the selected type of estate.
+        private void type_txt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (type_txt.Text)
+            {
+                case "Warehouse":
+                    specificprop_lbl.Text = "Items:";
+                    break;
+                case "Shop":
+                    specificprop_lbl.Text = "Wares:";
+                    break;
+                case "Villa":
+                    specificprop_lbl.Text = "Rooms:";
+                    break;
+                case "Apartment":
+                    specificprop_lbl.Text = "Rent:";
+                    break;
             }
         }
     }
