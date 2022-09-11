@@ -8,10 +8,19 @@ namespace Modern_Real_Estates.Model
 {
     public class Residential : Estate
     {
-        public Residential(int id, String category, String type, Address address, Image image)
+
+        private String rooms;
+
+        public Residential(int id, String category, String type, Address address, Image image, String rooms)
             : base(id, category, type, address, image)
         {
+            this.rooms = rooms;
+        }
 
+        public string Rooms
+        {
+            get { return rooms; }
+            set { rooms = value; }
         }
 
         public override string[] print()

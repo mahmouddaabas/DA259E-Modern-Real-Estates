@@ -8,14 +8,9 @@ namespace Modern_Real_Estates.Model
 {
     internal class Shop : Commercial
     {
-        public Shop(int id, String category, String type, Address address, Image image)
-            : base(id, category, type, address, image)
-        {
 
-        }
-
-        public Shop(int id, String category, String type, Address address, Image image, string wares)
-            : base(id, category, type, address, image)
+        public Shop(int id, String category, String type, Address address, Image image, string company, string wares)
+            : base(id, category, type, address, image, company)
         {
             this.wares = wares;
         }

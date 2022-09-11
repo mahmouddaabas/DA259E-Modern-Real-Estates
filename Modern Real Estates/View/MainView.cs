@@ -8,10 +8,12 @@ namespace Modern_Real_Estates
         private Controller.Controller controller;
         private int id = 0;
         private String selectedImage;
+        private ImageList imageList;
         public MainView()
         {
             InitializeComponent();
             controller = new Controller.Controller();
+            imageList = new ImageList();
 
             //Populate the country list on the GUI.
             populateCountryList();
@@ -23,7 +25,7 @@ namespace Modern_Real_Estates
             //Creates the estate object
             try
             {
-              Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificprop_txt.Text);
+              Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
 
               //Sends the returned estate object through the parameter to add it to the list.
               AddToList(estate);
@@ -45,7 +47,7 @@ namespace Modern_Real_Estates
                 list.SelectedItems[0].SubItems[4].Text = zip_txt.Text;
                 list.SelectedItems[0].SubItems[5].Text = city_txt.Text;
                 list.SelectedItems[0].SubItems[6].Text = country_txt.Text;
-                list.SelectedItems[0].SubItems[7].Text = specificprop_lbl.Text+" " + specificprop_txt.Text;
+                list.SelectedItems[0].SubItems[7].Text = specificproptwo_lbl.Text+" " + specificproptwo_txt.Text;
             }
             catch(Exception ex)
             {
@@ -80,8 +82,8 @@ namespace Modern_Real_Estates
         //Method to add entries to the list.
         private void AddToList(Estate estate)
         {
-            var imageList = new ImageList();
-            imageList.Images.Add("pic1", Image.FromFile(selectedImage));
+            //Every image has a unique name by adding the incremental ID to the string.
+            imageList.Images.Add("image"+id, Image.FromFile(selectedImage));
             list.SmallImageList = imageList;
 
             ListViewItem estatelist = new ListViewItem(Convert.ToString(id));
@@ -90,27 +92,48 @@ namespace Modern_Real_Estates
                 estatelist.SubItems.Add(estate.print()[i]);
             }
 
-            //Find out which property of a subclass to add based on the type of estate.
+            //Find out which property of a subclass to add based on the type of estate read from its print method.
             switch (estate.print()[1])
             {
                 case "Warehouse":
-                    estatelist.SubItems.Add(specificprop_lbl.Text +" " + ((Warehouse)estate).items);
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Commercial)estate).Company);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text +" " + ((Warehouse)estate).items);
                     break;
                 case "Apartment":
-                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Apartment)estate).rent);
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Apartment)estate).rent);
                     break;
                 case "Villa":
-                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Villa)estate).rooms);
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Villa)estate).size);
                     break;
                 case "Shop":
-                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + ((Shop)estate).wares);
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Commercial)estate).Company);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Shop)estate).wares);
+                    break;
+                case "Townhouse":
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Townhouse)estate).floors);
+                    break;
+                case "Hospital":
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Hospital)estate).patients);
+                    break;
+                case "School":
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((School)estate).pupils);
+                    break;
+                case "University":
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((University)estate).students);
                     break;
                 default:
-                    estatelist.SubItems.Add(specificprop_lbl.Text + " " + estatelist.SubItems.Add("None"));
+                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + estatelist.SubItems.Add("None"));
+                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + estatelist.SubItems.Add("None"));
                     break;
 
             }
-            estatelist.ImageKey = "pic1";
+            estatelist.ImageKey = "image"+id;
             list.Items.Add(estatelist);
             id++;
         }
@@ -138,16 +161,36 @@ namespace Modern_Real_Estates
             switch (type_txt.Text)
             {
                 case "Warehouse":
-                    specificprop_lbl.Text = "Items:";
+                    specificpropone_lbl.Text = "Company:";
+                    specificproptwo_lbl.Text = "Items:";
                     break;
                 case "Shop":
-                    specificprop_lbl.Text = "Wares:";
+                    specificpropone_lbl.Text = "Company:";
+                    specificproptwo_lbl.Text = "Wares:";
                     break;
                 case "Villa":
-                    specificprop_lbl.Text = "Rooms:";
+                    specificpropone_lbl.Text = "Rooms:";
+                    specificproptwo_lbl.Text = "Size:";
                     break;
                 case "Apartment":
-                    specificprop_lbl.Text = "Rent:";
+                    specificpropone_lbl.Text = "Rooms:";
+                    specificproptwo_lbl.Text = "Rent:";
+                    break;
+                case "Townhouse":
+                    specificpropone_lbl.Text = "Rooms:";
+                    specificproptwo_lbl.Text = "Floors:";
+                    break;
+                case "Hospital":
+                    specificpropone_lbl.Text = "Agency:";
+                    specificproptwo_lbl.Text = "Patients:";
+                    break;
+                case "School":
+                    specificpropone_lbl.Text = "Agency:";
+                    specificproptwo_lbl.Text = "Pupils:";
+                    break;
+                case "University":
+                    specificpropone_lbl.Text = "Agency:";
+                    specificproptwo_lbl.Text = "Students:";
                     break;
             }
         }

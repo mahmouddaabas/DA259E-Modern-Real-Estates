@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
-    internal class Institutional : Estate
+    public class Institutional : Estate
     {
-        public Institutional(int id, String category, String type, Address address, Image image)
+
+        private string agency;
+
+        public Institutional(int id, String category, String type, Address address, Image image, String agency)
             : base(id, category, type, address, image)
         {
+            this.agency = agency;
+        }
 
+        public string Agency
+        {
+            get { return agency; }
+            set { agency = value; }
         }
 
         public override string[] print()

@@ -9,10 +9,18 @@ namespace Modern_Real_Estates.Model
     internal class Commercial : Estate
     {
 
-        public Commercial(int id, String category, String type, Address address, Image image)
+        private String company;
+
+        public Commercial(int id, String category, String type, Address address, Image image, String company)
             : base(id, category, type, address, image)
         {
+            this.company = company;
+        }
 
+        public string Company
+        {
+            get{ return company; }
+            set { company = value; }
         }
 
         public override string[] print()

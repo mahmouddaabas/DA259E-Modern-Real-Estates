@@ -40,6 +40,7 @@
             this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
             this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
             this.type_lbl = new System.Windows.Forms.Label();
             this.type_txt = new System.Windows.Forms.ComboBox();
@@ -54,8 +55,10 @@
             this.zip_txt = new System.Windows.Forms.TextBox();
             this.country_txt = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.specificprop_txt = new System.Windows.Forms.TextBox();
-            this.specificprop_lbl = new System.Windows.Forms.Label();
+            this.specificproptwo_txt = new System.Windows.Forms.TextBox();
+            this.specificproptwo_lbl = new System.Windows.Forms.Label();
+            this.specificpropone_lbl = new System.Windows.Forms.Label();
+            this.specificpropone_txt = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // add_btn
@@ -98,7 +101,8 @@
             this.columnHeader4,
             this.columnHeader5,
             this.columnHeader6,
-            this.columnHeader7});
+            this.columnHeader7,
+            this.columnHeader9});
             this.list.Location = new System.Drawing.Point(-2, 1);
             this.list.Name = "list";
             this.list.Size = new System.Drawing.Size(831, 353);
@@ -134,7 +138,7 @@
             // columnHeader5
             // 
             this.columnHeader5.Text = "Country";
-            this.columnHeader5.Width = 80;
+            this.columnHeader5.Width = 100;
             // 
             // columnHeader6
             // 
@@ -144,7 +148,12 @@
             // columnHeader7
             // 
             this.columnHeader7.Text = "Specifics";
-            this.columnHeader7.Width = 80;
+            this.columnHeader7.Width = 100;
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Extras";
+            this.columnHeader9.Width = 100;
             // 
             // label1
             // 
@@ -175,7 +184,11 @@
             "Warehouse",
             "Apartment",
             "Shop",
-            "Villa"});
+            "Villa",
+            "Townhouse",
+            "Hospital",
+            "School",
+            "University"});
             this.type_txt.Location = new System.Drawing.Point(108, 398);
             this.type_txt.Name = "type_txt";
             this.type_txt.Size = new System.Drawing.Size(97, 23);
@@ -287,30 +300,49 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // specificprop_txt
+            // specificproptwo_txt
             // 
-            this.specificprop_txt.Location = new System.Drawing.Point(285, 396);
-            this.specificprop_txt.Name = "specificprop_txt";
-            this.specificprop_txt.Size = new System.Drawing.Size(100, 23);
-            this.specificprop_txt.TabIndex = 20;
+            this.specificproptwo_txt.Location = new System.Drawing.Point(284, 427);
+            this.specificproptwo_txt.Name = "specificproptwo_txt";
+            this.specificproptwo_txt.Size = new System.Drawing.Size(100, 23);
+            this.specificproptwo_txt.TabIndex = 20;
             // 
-            // specificprop_lbl
+            // specificproptwo_lbl
             // 
-            this.specificprop_lbl.AutoSize = true;
-            this.specificprop_lbl.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.specificprop_lbl.Location = new System.Drawing.Point(211, 396);
-            this.specificprop_lbl.Name = "specificprop_lbl";
-            this.specificprop_lbl.Size = new System.Drawing.Size(45, 21);
-            this.specificprop_lbl.TabIndex = 21;
-            this.specificprop_lbl.Text = "Type:";
+            this.specificproptwo_lbl.AutoSize = true;
+            this.specificproptwo_lbl.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.specificproptwo_lbl.Location = new System.Drawing.Point(211, 429);
+            this.specificproptwo_lbl.Name = "specificproptwo_lbl";
+            this.specificproptwo_lbl.Size = new System.Drawing.Size(45, 21);
+            this.specificproptwo_lbl.TabIndex = 21;
+            this.specificproptwo_lbl.Text = "Type:";
+            // 
+            // specificpropone_lbl
+            // 
+            this.specificpropone_lbl.AutoSize = true;
+            this.specificpropone_lbl.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.specificpropone_lbl.Location = new System.Drawing.Point(211, 396);
+            this.specificpropone_lbl.Name = "specificpropone_lbl";
+            this.specificpropone_lbl.Size = new System.Drawing.Size(45, 21);
+            this.specificpropone_lbl.TabIndex = 22;
+            this.specificpropone_lbl.Text = "Type:";
+            // 
+            // specificpropone_txt
+            // 
+            this.specificpropone_txt.Location = new System.Drawing.Point(284, 398);
+            this.specificpropone_txt.Name = "specificpropone_txt";
+            this.specificpropone_txt.Size = new System.Drawing.Size(100, 23);
+            this.specificpropone_txt.TabIndex = 23;
             // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(831, 599);
-            this.Controls.Add(this.specificprop_lbl);
-            this.Controls.Add(this.specificprop_txt);
+            this.Controls.Add(this.specificpropone_txt);
+            this.Controls.Add(this.specificpropone_lbl);
+            this.Controls.Add(this.specificproptwo_lbl);
+            this.Controls.Add(this.specificproptwo_txt);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.country_txt);
             this.Controls.Add(this.zip_txt);
@@ -364,7 +396,10 @@
         private ColumnHeader columnHeader8;
         private Button button1;
         private ColumnHeader columnHeader7;
-        private TextBox specificprop_txt;
-        private Label specificprop_lbl;
+        private TextBox specificproptwo_txt;
+        private Label specificproptwo_lbl;
+        private Label specificpropone_lbl;
+        private TextBox specificpropone_txt;
+        private ColumnHeader columnHeader9;
     }
 }
