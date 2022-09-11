@@ -16,5 +16,9 @@ namespace Modern_Real_Estates.Model
         }
 
         public string size { get; set; }
+        public override string[] print()
+        {
+            return new[] { this.ID.ToString(), this.Category.ToString(), this.Type.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Rooms, this.size };
+        }
     }
 }

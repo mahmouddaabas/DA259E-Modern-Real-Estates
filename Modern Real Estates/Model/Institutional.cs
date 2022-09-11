@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
-    public class Institutional : Estate
+    public abstract class Institutional : Estate
     {
 
         private string agency;

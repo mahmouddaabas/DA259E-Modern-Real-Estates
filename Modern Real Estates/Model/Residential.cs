@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
-    public class Residential : Estate
+    public abstract class Residential : Estate
     {
 
         private String rooms;

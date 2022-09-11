@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
-    internal class Commercial : Estate
+    public abstract class Commercial : Estate
     {
 
         private String company;

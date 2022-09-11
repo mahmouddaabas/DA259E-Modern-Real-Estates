@@ -7,7 +7,7 @@ namespace Modern_Real_Estates
 
         private Controller.Controller controller;
         private int id = 0;
-        private String selectedImage;
+        private String selectedImage = "";
         private ImageList imageList;
         public MainView()
         {
@@ -25,14 +25,14 @@ namespace Modern_Real_Estates
             //Creates the estate object
             try
             {
-              Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
+                Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
 
-              //Sends the returned estate object through the parameter to add it to the list.
-              AddToList(estate);
+                //Sends the returned estate object through the parameter to add it to the list.
+                AddToList(estate);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("You need to add an image!");
+                MessageBox.Show("You need to add an image to the entry!");
             }
         }
 
@@ -41,17 +41,89 @@ namespace Modern_Real_Estates
         {
             try
             {
-                list.SelectedItems[0].SubItems[1].Text = type_txt.Text;
-                list.SelectedItems[0].SubItems[2].Text = legalform_txt.Text;
-                list.SelectedItems[0].SubItems[3].Text = street_txt.Text;
-                list.SelectedItems[0].SubItems[4].Text = zip_txt.Text;
-                list.SelectedItems[0].SubItems[5].Text = city_txt.Text;
-                list.SelectedItems[0].SubItems[6].Text = country_txt.Text;
-                list.SelectedItems[0].SubItems[7].Text = specificproptwo_lbl.Text+" " + specificproptwo_txt.Text;
+                //Select the object that is stored in the list by its tag property.
+                Estate selected = (Estate)list.SelectedItems[0].Tag;
+
+                //Change all shared properties of the object.
+                selected.ID = id - 1;
+                selected.Category = type_txt.Text;
+                selected.Type = legalform_txt.Text;
+                selected.Address.City = city_txt.Text;
+                selected.Address.Street = street_txt.Text;
+                selected.Address.Zipcode = zip_txt.Text;
+                selected.Address.Country = Enum.Parse<Countries>(country_txt.Text);
+
+                //Change the object specific properties.
+                switch (selected.print()[1])
+                {
+                    case "Warehouse":
+                        ((Commercial)selected).Company = specificpropone_txt.Text;
+                        ((Warehouse)selected).items = specificproptwo_txt.Text;
+                        break;
+                    case "Shop":
+                        ((Commercial)selected).Company = specificpropone_txt.Text;
+                        ((Shop)selected).wares = specificproptwo_txt.Text;
+                        break;
+                    case "Villa":
+                        ((Residential)selected).Rooms = specificpropone_txt.Text;
+                        ((Villa)selected).size = specificproptwo_txt.Text;
+                        break;
+                    case "Apartment":
+                        ((Residential)selected).Rooms = specificpropone_txt.Text;
+                        ((Apartment)selected).rent = specificproptwo_txt.Text;
+                        break;
+                    case "Townhouse":
+                        ((Residential)selected).Rooms = specificpropone_txt.Text;
+                        ((Townhouse)selected).floors = specificproptwo_txt.Text;
+                        break;
+                    case "Hospital":
+                        ((Institutional)selected).Agency = specificpropone_txt.Text;
+                        ((Hospital)selected).patients = specificproptwo_txt.Text;
+                        break;
+                    case "School":
+                        ((Institutional)selected).Agency = specificpropone_txt.Text;
+                        ((School)selected).pupils = specificproptwo_txt.Text;
+                        break;
+                    case "University":
+                        ((Institutional)selected).Agency = specificpropone_txt.Text;
+                        ((University)selected).students = specificproptwo_txt.Text;
+                        break;
+                }
+
+                updateEstateList(selected);
+
             }
-            catch(Exception ex)
+            catch (InvalidCastException exx)
+            {
+                MessageBox.Show("You can't change the type of a building!");
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show("Select something from the list to edit by pressing on the ID.");
+            }
+        }
+
+        //Method to update the estate list.
+        private void updateEstateList(Estate estate)
+        {
+            ListViewItem item = new ListViewItem(Convert.ToString(id));
+
+            //Add the objects information sent in its print method to the list columns.
+            for (int i = 1; i < estate.print().Length; i++)
+            {
+                if (i == 7)
+                {
+                    list.SelectedItems[0].SubItems[i].Text = specificpropone_lbl.Text + " " + estate.print()[i];
+  
+                }
+                else if (i == 8)
+                {
+                    list.SelectedItems[0].SubItems[i].Text = specificproptwo_lbl.Text + " " + estate.print()[i];
+                }
+                else
+                {
+                    list.SelectedItems[0].SubItems[i].Text = estate.print()[i];
+                }
             }
         }
 
@@ -70,71 +142,45 @@ namespace Modern_Real_Estates
 
         private void delete_btn_Click(object sender, EventArgs e)
         {
-            try { 
-            list.Items.Remove(list.SelectedItems[0]);
+            try
+            {
+                list.Items.Remove(list.SelectedItems[0]);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Select something from the list to delete by pressing on the ID.");
             }
-}
+        }
 
         //Method to add entries to the list.
         private void AddToList(Estate estate)
         {
             //Every image has a unique name by adding the incremental ID to the string.
-            imageList.Images.Add("image"+id, Image.FromFile(selectedImage));
+            imageList.Images.Add("image" + id, Image.FromFile(selectedImage));
             list.SmallImageList = imageList;
 
-            ListViewItem estatelist = new ListViewItem(Convert.ToString(id));
+            ListViewItem item = new ListViewItem(Convert.ToString(id));
+            //Add the object send through the param to the list.
+            item.Tag = estate;
+
+            //Add the objects information send in its print method to the list columns.
             for (int i = 1; i < estate.print().Length; i++)
             {
-                estatelist.SubItems.Add(estate.print()[i]);
+                if(i == 7)
+                {
+                    item.SubItems.Add(specificpropone_lbl.Text+" "+ estate.print()[i]);
+                }
+                else if(i == 8){
+                    item.SubItems.Add(specificproptwo_lbl.Text + " " +estate.print()[i]);
+                }
+                else
+                {
+                    item.SubItems.Add(estate.print()[i]);
+                }
             }
 
-            //Find out which property of a subclass to add based on the type of estate read from its print method.
-            switch (estate.print()[1])
-            {
-                case "Warehouse":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Commercial)estate).Company);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text +" " + ((Warehouse)estate).items);
-                    break;
-                case "Apartment":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Apartment)estate).rent);
-                    break;
-                case "Villa":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Villa)estate).size);
-                    break;
-                case "Shop":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Commercial)estate).Company);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Shop)estate).wares);
-                    break;
-                case "Townhouse":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Residential)estate).Rooms);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Townhouse)estate).floors);
-                    break;
-                case "Hospital":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((Hospital)estate).patients);
-                    break;
-                case "School":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((School)estate).pupils);
-                    break;
-                case "University":
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + ((Institutional)estate).Agency);
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + ((University)estate).students);
-                    break;
-                default:
-                    estatelist.SubItems.Add(specificpropone_lbl.Text + " " + estatelist.SubItems.Add("None"));
-                    estatelist.SubItems.Add(specificproptwo_lbl.Text + " " + estatelist.SubItems.Add("None"));
-                    break;
-
-            }
-            estatelist.ImageKey = "image"+id;
-            list.Items.Add(estatelist);
+            item.ImageKey = "image" + id;
+            list.Items.Add(item);
             id++;
         }
 
