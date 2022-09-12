@@ -9,17 +9,16 @@ namespace Modern_Real_Estates.Model
     public class Townhouse : Residential
     {
 
-            public Townhouse(int id, String category, String type, Address address, Image image, string rooms, string floors)
-                : base(id, category, type, address, image, rooms)
+            public Townhouse(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+                : base(id, type, legalform, estateType, address, image)
             {
-                this.floors = floors;
             }
 
             public string floors { get; set; }
 
         public override string[] print()
         {
-            return new[] { this.ID.ToString(), this.Category.ToString(), this.Type.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Rooms, this.floors };
+            return new[] { this.ID.ToString(), this.Type.ToString(), this.LegalForm.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Rooms, this.floors };
         }
     }
 

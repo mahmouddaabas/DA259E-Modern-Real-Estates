@@ -11,10 +11,9 @@ namespace Modern_Real_Estates.Model
 
         private String rooms;
 
-        public Residential(int id, String category, String type, Address address, Image image, String rooms)
-            : base(id, category, type, address, image)
+        public Residential(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+            : base(id, type, legalform, estateType, address, image)
         {
-            this.rooms = rooms;
         }
 
         public string Rooms
@@ -25,7 +24,7 @@ namespace Modern_Real_Estates.Model
 
         public override string[] print()
         {
-            return new[] { this.ID.ToString(), this.Category.ToString(), this.Type.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString() };
+            return new[] { this.ID.ToString(), this.Type.ToString(), this.LegalForm.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString() };
         }
     }
 }

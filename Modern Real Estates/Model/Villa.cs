@@ -9,16 +9,15 @@ namespace Modern_Real_Estates.Model
     internal class Villa : Residential
     {
 
-        public Villa(int id, String category, String type, Address address, Image image, string rooms, string size)
-            : base(id, category, type, address, image, rooms)
+        public Villa(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+            : base(id, type, legalform, estateType, address, image)
         {
-            this.size = size;
         }
 
         public string size { get; set; }
         public override string[] print()
         {
-            return new[] { this.ID.ToString(), this.Category.ToString(), this.Type.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Rooms, this.size };
+            return new[] { this.ID.ToString(), this.Type.ToString(), this.LegalForm.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Rooms, this.size };
         }
     }
 }

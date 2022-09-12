@@ -9,16 +9,15 @@ namespace Modern_Real_Estates.Model
     internal class Shop : Commercial
     {
 
-        public Shop(int id, String category, String type, Address address, Image image, string company, string wares)
-            : base(id, category, type, address, image, company)
+        public Shop(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+            : base(id, type, legalform, estateType, address, image)
         {
-            this.wares = wares;
         }
 
         public string wares { get; set; }
         public override string[] print()
         {
-            return new[] { this.ID.ToString(), this.Category.ToString(), this.Type.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Company, this.wares };
+            return new[] { this.ID.ToString(), this.Type.ToString(), this.LegalForm.ToString(), this.Address.Street.ToString(), this.Address.City.ToString(), this.Address.Country.ToString(), this.Address.Zipcode.ToString(), this.Company, this.wares };
         }
     }
 }

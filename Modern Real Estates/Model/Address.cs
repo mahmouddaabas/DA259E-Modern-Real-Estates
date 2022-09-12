@@ -8,6 +8,9 @@ namespace Modern_Real_Estates.Model
 {
     public class Address
     {
+        public Address()
+        {
+        }
         public Address(string street, string zipcode, string city, Countries country)
         {
             Street = street;

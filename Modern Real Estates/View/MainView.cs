@@ -9,6 +9,7 @@ namespace Modern_Real_Estates
         private int id = 0;
         private String selectedImage = "";
         private ImageList imageList;
+        private EstateTypes selectedEstateType;
         public MainView()
         {
             InitializeComponent();
@@ -25,7 +26,7 @@ namespace Modern_Real_Estates
             //Creates the estate object
             try
             {
-                Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
+                Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, selectedEstateType, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
 
                 //Sends the returned estate object through the parameter to add it to the list.
                 AddToList(estate);
@@ -44,10 +45,12 @@ namespace Modern_Real_Estates
                 //Select the object that is stored in the list by its tag property.
                 Estate selected = (Estate)list.SelectedItems[0].Tag;
 
+                //int id, String type, String legalform, EstateTypes estateType, Address address, Image image
                 //Change all shared properties of the object.
                 selected.ID = id - 1;
-                selected.Category = type_txt.Text;
-                selected.Type = legalform_txt.Text;
+                selected.Type = type_txt.Text;
+                selected.LegalForm = legalform_txt.Text;
+                selected.EstateType = selectedEstateType;
                 selected.Address.City = city_txt.Text;
                 selected.Address.Street = street_txt.Text;
                 selected.Address.Zipcode = zip_txt.Text;
@@ -209,34 +212,42 @@ namespace Modern_Real_Estates
                 case "Warehouse":
                     specificpropone_lbl.Text = "Company:";
                     specificproptwo_lbl.Text = "Items:";
+                    selectedEstateType = EstateTypes.Commercial;
                     break;
                 case "Shop":
                     specificpropone_lbl.Text = "Company:";
                     specificproptwo_lbl.Text = "Wares:";
+                    selectedEstateType = EstateTypes.Commercial;
                     break;
                 case "Villa":
                     specificpropone_lbl.Text = "Rooms:";
                     specificproptwo_lbl.Text = "Size:";
+                    selectedEstateType = EstateTypes.Residential;
                     break;
                 case "Apartment":
                     specificpropone_lbl.Text = "Rooms:";
                     specificproptwo_lbl.Text = "Rent:";
+                    selectedEstateType = EstateTypes.Residential;
                     break;
                 case "Townhouse":
                     specificpropone_lbl.Text = "Rooms:";
                     specificproptwo_lbl.Text = "Floors:";
+                    selectedEstateType = EstateTypes.Residential;
                     break;
                 case "Hospital":
                     specificpropone_lbl.Text = "Agency:";
                     specificproptwo_lbl.Text = "Patients:";
+                    selectedEstateType = EstateTypes.Institutional;
                     break;
                 case "School":
                     specificpropone_lbl.Text = "Agency:";
                     specificproptwo_lbl.Text = "Pupils:";
+                    selectedEstateType = EstateTypes.Institutional;
                     break;
                 case "University":
                     specificpropone_lbl.Text = "Agency:";
                     specificproptwo_lbl.Text = "Students:";
+                    selectedEstateType = EstateTypes.Institutional;
                     break;
             }
         }

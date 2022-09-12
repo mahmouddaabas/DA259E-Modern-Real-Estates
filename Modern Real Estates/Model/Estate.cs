@@ -9,11 +9,12 @@ namespace Modern_Real_Estates.Model
 {
     public abstract class Estate : IEstate
     {
-        protected Estate(int id, String category, String type, Address address, Image image)
+        protected Estate(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
         {
             ID = id;
-            Category = category;
             Type = type;
+            LegalForm = legalform;
+            EstateType = estateType;
             Address = address;
             Image = image;
         }
@@ -22,8 +23,9 @@ namespace Modern_Real_Estates.Model
 
         public int ID { get; set; }
         public Address Address { get; set; }
-        public string Category { get; set; }
         public string Type { get; set; }
+        public string LegalForm { get; set; }
+        public EstateTypes EstateType { get; set; }
         public Image Image { get; set; }
     }
 }
