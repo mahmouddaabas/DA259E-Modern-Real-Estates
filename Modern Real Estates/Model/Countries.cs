@@ -9,7 +9,7 @@ using System.Text;
 	/// <summary>
 	///The countries of the world.
 	/// </summary>
-
+    [Serializable]
 	public enum Countries
 	{
         Afghanistan,

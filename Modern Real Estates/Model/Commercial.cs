@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
+    [Serializable]
     public abstract class Commercial : Estate
     {
 
         private String company;
 
-        public Commercial(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+        public Commercial(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             : base(id, type, legalform, estateType, address, image)
         {
         }

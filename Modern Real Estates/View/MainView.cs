@@ -1,7 +1,10 @@
 using Modern_Real_Estates.Model;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Modern_Real_Estates
 {
+    [Serializable]
     public partial class MainView : Form
     {
 
@@ -10,11 +13,15 @@ namespace Modern_Real_Estates
         private String selectedImage = "";
         private ImageList imageList;
         private EstateTypes selectedEstateType;
+        private EstateManager eManager = null;
+        private bool saveSelected = false;
+        private string selectedSavePath;
         public MainView()
         {
             InitializeComponent();
             controller = new Controller.Controller();
             imageList = new ImageList();
+            eManager = new EstateManager();
 
             //Populate the country list on the GUI.
             populateCountryList();
@@ -26,10 +33,14 @@ namespace Modern_Real_Estates
             //Creates the estate object
             try
             {
-                Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, selectedEstateType, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), Image.FromFile(selectedImage), specificpropone_txt.Text, specificproptwo_txt.Text);
+                //Creates a estate object through the method in the controller.
+                Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, selectedEstateType, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), selectedImage, specificpropone_txt.Text, specificproptwo_txt.Text);
 
-                //Sends the returned estate object through the parameter to add it to the list.
-                AddToList(estate);
+                //Adds the returned estate object through the parameter to the ListManager list.
+                eManager.Add(estate);
+
+                //Adds the estate to the GUI.
+                AddToList();
             }
             catch (Exception ex)
             {
@@ -40,94 +51,6 @@ namespace Modern_Real_Estates
         //Change the information of the selected estate in the list.
         private void change_btn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                //Select the object that is stored in the list by its tag property.
-                Estate selected = (Estate)list.SelectedItems[0].Tag;
-
-                //int id, String type, String legalform, EstateTypes estateType, Address address, Image image
-                //Change all shared properties of the object.
-                selected.ID = id - 1;
-                selected.Type = type_txt.Text;
-                selected.LegalForm = legalform_txt.Text;
-                selected.EstateType = selectedEstateType;
-                selected.Address.City = city_txt.Text;
-                selected.Address.Street = street_txt.Text;
-                selected.Address.Zipcode = zip_txt.Text;
-                selected.Address.Country = Enum.Parse<Countries>(country_txt.Text);
-
-                //Change the object specific properties.
-                switch (selected.print()[1])
-                {
-                    case "Warehouse":
-                        ((Commercial)selected).Company = specificpropone_txt.Text;
-                        ((Warehouse)selected).items = specificproptwo_txt.Text;
-                        break;
-                    case "Shop":
-                        ((Commercial)selected).Company = specificpropone_txt.Text;
-                        ((Shop)selected).wares = specificproptwo_txt.Text;
-                        break;
-                    case "Villa":
-                        ((Residential)selected).Rooms = specificpropone_txt.Text;
-                        ((Villa)selected).size = specificproptwo_txt.Text;
-                        break;
-                    case "Apartment":
-                        ((Residential)selected).Rooms = specificpropone_txt.Text;
-                        ((Apartment)selected).rent = specificproptwo_txt.Text;
-                        break;
-                    case "Townhouse":
-                        ((Residential)selected).Rooms = specificpropone_txt.Text;
-                        ((Townhouse)selected).floors = specificproptwo_txt.Text;
-                        break;
-                    case "Hospital":
-                        ((Institutional)selected).Agency = specificpropone_txt.Text;
-                        ((Hospital)selected).patients = specificproptwo_txt.Text;
-                        break;
-                    case "School":
-                        ((Institutional)selected).Agency = specificpropone_txt.Text;
-                        ((School)selected).pupils = specificproptwo_txt.Text;
-                        break;
-                    case "University":
-                        ((Institutional)selected).Agency = specificpropone_txt.Text;
-                        ((University)selected).students = specificproptwo_txt.Text;
-                        break;
-                }
-
-                updateEstateList(selected);
-
-            }
-            catch (InvalidCastException exx)
-            {
-                MessageBox.Show("You can't change the type of a building!");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Select something from the list to edit by pressing on the ID.");
-            }
-        }
-
-        //Method to update the estate list.
-        private void updateEstateList(Estate estate)
-        {
-            ListViewItem item = new ListViewItem(Convert.ToString(id));
-
-            //Add the objects information sent in its print method to the list columns.
-            for (int i = 1; i < estate.print().Length; i++)
-            {
-                if (i == 7)
-                {
-                    list.SelectedItems[0].SubItems[i].Text = specificpropone_lbl.Text + " " + estate.print()[i];
-  
-                }
-                else if (i == 8)
-                {
-                    list.SelectedItems[0].SubItems[i].Text = specificproptwo_lbl.Text + " " + estate.print()[i];
-                }
-                else
-                {
-                    list.SelectedItems[0].SubItems[i].Text = estate.print()[i];
-                }
-            }
         }
 
         //Method to populate the country list combobox from the countries enum.
@@ -143,11 +66,15 @@ namespace Modern_Real_Estates
             country_txt.SelectedIndex = 0;
         }
 
+        //Deletes an entry from the list.
         private void delete_btn_Click(object sender, EventArgs e)
         {
             try
             {
-                list.Items.Remove(list.SelectedItems[0]);
+                int index = list.Items.IndexOf(list.SelectedItems[0]);
+                list.Items[index].Remove();
+                eManager.DeleteAt(index);
+                updateEstateList(eManager.ToStringArray());
             }
             catch (Exception ex)
             {
@@ -156,35 +83,49 @@ namespace Modern_Real_Estates
         }
 
         //Method to add entries to the list.
-        private void AddToList(Estate estate)
+        private void AddToList()
         {
-            //Every image has a unique name by adding the incremental ID to the string.
-            imageList.Images.Add("image" + id, Image.FromFile(selectedImage));
+            //Clear the current list in the GUI.
+            list.Items.Clear();
+
+            imageList.Images.Add(selectedImage, Image.FromFile(selectedImage));
             list.SmallImageList = imageList;
 
-            ListViewItem item = new ListViewItem(Convert.ToString(id));
-            //Add the object send through the param to the list.
-            item.Tag = estate;
-
-            //Add the objects information send in its print method to the list columns.
-            for (int i = 1; i < estate.print().Length; i++)
+            //Add the new objects from the list in the ListManager to the GUI.
+            for (int i = 0; i < eManager.Count; i++)
             {
-                if(i == 7)
-                {
-                    item.SubItems.Add(specificpropone_lbl.Text+" "+ estate.print()[i]);
-                }
-                else if(i == 8){
-                    item.SubItems.Add(specificproptwo_lbl.Text + " " +estate.print()[i]);
-                }
-                else
-                {
-                    item.SubItems.Add(estate.print()[i]);
-                }
+                ListViewItem item = new ListViewItem();
+                Estate estate = eManager.GetAt(i);
+                item.Text = estate.ToString();
+                item.Tag = estate;
+                item.ImageKey = estate.Image;
+                list.Items.Add(item);
             }
-
-            item.ImageKey = "image" + id;
-            list.Items.Add(item);
             id++;
+        }
+
+        //Method to update the estate list.
+        private void updateEstateList(string[] newList)
+        {
+            list.SmallImageList = imageList;
+
+            //Clear the current list in the GUI.
+            list.Items.Clear();
+            for(int i = 0; i < eManager.Count; i++)
+            {
+                ListViewItem item = new ListViewItem();
+                item.Text = newList[i].ToString();
+                Estate estate = eManager.GetAt(i);
+                item.Tag = estate;
+
+                if (!string.IsNullOrEmpty(estate.Image))
+                {
+                    imageList.Images.Add(estate.Image, Image.FromFile(estate.Image));
+                    item.ImageKey = estate.Image;
+                }
+
+                list.Items.Add(item);
+            }
         }
 
         //Method that enables adding an image.
@@ -250,6 +191,85 @@ namespace Modern_Real_Estates
                     selectedEstateType = EstateTypes.Institutional;
                     break;
             }
+        }
+
+        //Opens a saved data file.
+        private void Open_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\",
+                Title = "Browse data files",
+
+                CheckFileExists = true,
+                CheckPathExists = true,
+
+                DefaultExt = "dat",
+                Filter = "dat files (*.dat)|*.dat",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+            };
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //Clear the old list.
+                list.Items.Clear();
+                //Set the filepath into the variable and set the bool to true.
+                selectedSavePath = openFileDialog1.FileName;
+                saveSelected = true;
+                //Save the file by serializing it.
+                eManager.BinaryDeSerialize(openFileDialog1.FileName);
+                //Update the list to show the file on the GUI.
+                updateEstateList(eManager.ToStringArray());
+            }
+        }
+
+        //Restarts the application.
+        private void New_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        //Saves the current state of the application.
+        private void Save_Click(object sender, EventArgs e)
+        {
+            if(saveSelected == true)
+            {
+                //If user already opened a save, rewrite it.
+                eManager.BinarySerialize(selectedSavePath);
+            }
+            else
+            {
+                //If user is saving for the first time, ask where they want to save.
+                saveFileTo();
+            }
+        }
+
+        //Save the data a place of the the users choosing.
+        private void SaveAs_Click(object sender, EventArgs e)
+        {
+            saveFileTo();
+        }
+
+        //Method that allows saving of a file where the user wants.
+        private void saveFileTo()
+        {
+            System.Windows.Forms.SaveFileDialog saveFileDialog1;
+            saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            DialogResult dr = saveFileDialog1.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                //Save the file at the location specified by the user.
+                string filename = saveFileDialog1.FileName;
+                eManager.BinarySerialize(filename);
+            }
+        }
+
+        //Closes the program.
+        private void Exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

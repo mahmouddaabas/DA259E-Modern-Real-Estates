@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
+    [Serializable]
     public abstract class Estate : IEstate
     {
-        protected Estate(int id, String type, String legalform, EstateTypes estateType, Address address, Image image)
+        protected Estate(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
         {
             ID = id;
             Type = type;
@@ -26,6 +27,6 @@ namespace Modern_Real_Estates.Model
         public string Type { get; set; }
         public string LegalForm { get; set; }
         public EstateTypes EstateType { get; set; }
-        public Image Image { get; set; }
+        public String Image { get; set; }
     }
 }

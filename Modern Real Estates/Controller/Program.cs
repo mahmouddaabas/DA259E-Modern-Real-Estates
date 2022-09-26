@@ -1,5 +1,6 @@
 namespace Modern_Real_Estates.Controller
 {
+    [Serializable]
     internal static class Program
     {
         /// <summary>

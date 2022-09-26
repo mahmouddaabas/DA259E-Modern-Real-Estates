@@ -33,14 +33,6 @@
             this.change_btn = new System.Windows.Forms.Button();
             this.list = new System.Windows.Forms.ListView();
             this.columnHeader8 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
-            this.columnHeader9 = new System.Windows.Forms.ColumnHeader();
             this.label1 = new System.Windows.Forms.Label();
             this.type_lbl = new System.Windows.Forms.Label();
             this.type_txt = new System.Windows.Forms.ComboBox();
@@ -54,11 +46,22 @@
             this.city_txt = new System.Windows.Forms.TextBox();
             this.zip_txt = new System.Windows.Forms.TextBox();
             this.country_txt = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.uploadImgBtn = new System.Windows.Forms.Button();
             this.specificproptwo_txt = new System.Windows.Forms.TextBox();
             this.specificproptwo_lbl = new System.Windows.Forms.Label();
             this.specificpropone_lbl = new System.Windows.Forms.Label();
             this.specificpropone_txt = new System.Windows.Forms.TextBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.stripMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.Open = new System.Windows.Forms.ToolStripMenuItem();
+            this.New = new System.Windows.Forms.ToolStripMenuItem();
+            this.Save = new System.Windows.Forms.ToolStripMenuItem();
+            this.SaveAs = new System.Windows.Forms.ToolStripMenuItem();
+            this.XML = new System.Windows.Forms.ToolStripMenuItem();
+            this.Import_From_XML = new System.Windows.Forms.ToolStripMenuItem();
+            this.Export_To_XML = new System.Windows.Forms.ToolStripMenuItem();
+            this.Exit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // add_btn
@@ -94,66 +97,21 @@
             // list
             // 
             this.list.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader8,
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader9});
-            this.list.Location = new System.Drawing.Point(-2, 1);
+            this.columnHeader8});
+            this.list.FullRowSelect = true;
+            this.list.GridLines = true;
+            this.list.Location = new System.Drawing.Point(-2, 27);
             this.list.Name = "list";
-            this.list.Size = new System.Drawing.Size(831, 353);
+            this.list.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.list.Size = new System.Drawing.Size(831, 327);
             this.list.TabIndex = 3;
             this.list.UseCompatibleStateImageBehavior = false;
             this.list.View = System.Windows.Forms.View.Details;
             // 
             // columnHeader8
             // 
-            this.columnHeader8.Text = "ID";
-            this.columnHeader8.Width = 80;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Type";
-            this.columnHeader1.Width = 80;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Legal Form";
-            this.columnHeader2.Width = 80;
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Street";
-            this.columnHeader3.Width = 80;
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "City";
-            this.columnHeader4.Width = 80;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Country";
-            this.columnHeader5.Width = 100;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Zip Code";
-            this.columnHeader6.Width = 80;
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "Specifics";
-            this.columnHeader7.Width = 100;
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Extras";
-            this.columnHeader9.Width = 100;
+            this.columnHeader8.Text = "All Estates";
+            this.columnHeader8.Width = 1000;
             // 
             // label1
             // 
@@ -290,15 +248,15 @@
             this.country_txt.Size = new System.Drawing.Size(97, 23);
             this.country_txt.TabIndex = 18;
             // 
-            // button1
+            // uploadImgBtn
             // 
-            this.button1.Location = new System.Drawing.Point(48, 566);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(101, 23);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "Upload Image";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.uploadImgBtn.Location = new System.Drawing.Point(48, 566);
+            this.uploadImgBtn.Name = "uploadImgBtn";
+            this.uploadImgBtn.Size = new System.Drawing.Size(101, 23);
+            this.uploadImgBtn.TabIndex = 19;
+            this.uploadImgBtn.Text = "Upload Image";
+            this.uploadImgBtn.UseVisualStyleBackColor = true;
+            this.uploadImgBtn.Click += new System.EventHandler(this.button1_Click);
             // 
             // specificproptwo_txt
             // 
@@ -334,6 +292,85 @@
             this.specificpropone_txt.Size = new System.Drawing.Size(100, 23);
             this.specificpropone_txt.TabIndex = 23;
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.stripMenu});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(831, 24);
+            this.menuStrip1.TabIndex = 24;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // stripMenu
+            // 
+            this.stripMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Open,
+            this.New,
+            this.Save,
+            this.SaveAs,
+            this.XML,
+            this.Exit});
+            this.stripMenu.Name = "stripMenu";
+            this.stripMenu.Size = new System.Drawing.Size(37, 20);
+            this.stripMenu.Text = "File";
+            // 
+            // Open
+            // 
+            this.Open.Name = "Open";
+            this.Open.Size = new System.Drawing.Size(180, 22);
+            this.Open.Text = "Open";
+            this.Open.Click += new System.EventHandler(this.Open_Click);
+            // 
+            // New
+            // 
+            this.New.Name = "New";
+            this.New.Size = new System.Drawing.Size(180, 22);
+            this.New.Text = "New";
+            this.New.Click += new System.EventHandler(this.New_Click);
+            // 
+            // Save
+            // 
+            this.Save.Name = "Save";
+            this.Save.Size = new System.Drawing.Size(180, 22);
+            this.Save.Text = "Save";
+            this.Save.Click += new System.EventHandler(this.Save_Click);
+            // 
+            // SaveAs
+            // 
+            this.SaveAs.Name = "SaveAs";
+            this.SaveAs.Size = new System.Drawing.Size(180, 22);
+            this.SaveAs.Text = "Save as..";
+            this.SaveAs.Click += new System.EventHandler(this.SaveAs_Click);
+            // 
+            // XML
+            // 
+            this.XML.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.Import_From_XML,
+            this.Export_To_XML});
+            this.XML.Name = "XML";
+            this.XML.Size = new System.Drawing.Size(180, 22);
+            this.XML.Text = "XML";
+            // 
+            // Import_From_XML
+            // 
+            this.Import_From_XML.Name = "Import_From_XML";
+            this.Import_From_XML.Size = new System.Drawing.Size(172, 22);
+            this.Import_From_XML.Text = "Import_From_XML";
+            // 
+            // Export_To_XML
+            // 
+            this.Export_To_XML.Name = "Export_To_XML";
+            this.Export_To_XML.Size = new System.Drawing.Size(172, 22);
+            this.Export_To_XML.Text = "Export_To_XML";
+            // 
+            // Exit
+            // 
+            this.Exit.Name = "Exit";
+            this.Exit.Size = new System.Drawing.Size(180, 22);
+            this.Exit.Text = "Exit";
+            this.Exit.Click += new System.EventHandler(this.Exit_Click);
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -343,7 +380,7 @@
             this.Controls.Add(this.specificpropone_lbl);
             this.Controls.Add(this.specificproptwo_lbl);
             this.Controls.Add(this.specificproptwo_txt);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.uploadImgBtn);
             this.Controls.Add(this.country_txt);
             this.Controls.Add(this.zip_txt);
             this.Controls.Add(this.city_txt);
@@ -361,8 +398,12 @@
             this.Controls.Add(this.change_btn);
             this.Controls.Add(this.delete_btn);
             this.Controls.Add(this.add_btn);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainView";
             this.Text = "Modern Real Estates by Mahmoud Daabas";
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -374,10 +415,6 @@
         private Button delete_btn;
         private Button change_btn;
         private ListView list;
-        private ColumnHeader columnHeader1;
-        private ColumnHeader columnHeader2;
-        private ColumnHeader columnHeader3;
-        private ColumnHeader columnHeader4;
         private Label label1;
         private Label type_lbl;
         private ComboBox type_txt;
@@ -391,15 +428,21 @@
         private TextBox city_txt;
         private TextBox zip_txt;
         private ComboBox country_txt;
-        private ColumnHeader columnHeader5;
-        private ColumnHeader columnHeader6;
         private ColumnHeader columnHeader8;
-        private Button button1;
-        private ColumnHeader columnHeader7;
+        private Button uploadImgBtn;
         private TextBox specificproptwo_txt;
         private Label specificproptwo_lbl;
         private Label specificpropone_lbl;
         private TextBox specificpropone_txt;
-        private ColumnHeader columnHeader9;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem stripMenu;
+        private ToolStripMenuItem Open;
+        private ToolStripMenuItem New;
+        private ToolStripMenuItem Save;
+        private ToolStripMenuItem SaveAs;
+        private ToolStripMenuItem XML;
+        private ToolStripMenuItem Exit;
+        private ToolStripMenuItem Import_From_XML;
+        private ToolStripMenuItem Export_To_XML;
     }
 }

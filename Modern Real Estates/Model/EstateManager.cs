@@ -7,15 +7,11 @@ using System.Threading.Tasks;
 namespace Modern_Real_Estates.Model
 {
     [Serializable]
-    public enum EstateTypes
+    internal class EstateManager : ListManager<Estate>
     {
-        Residential,
-        Institutional,
-        Commercial
+        public EstateManager()
+        {
+            //Use methods from list manager.
+        }
     }
-
-
-
-
-
 }

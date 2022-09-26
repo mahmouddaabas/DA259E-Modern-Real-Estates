@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Model
 {
+    [Serializable]
     public class Address
     {
         public Address()

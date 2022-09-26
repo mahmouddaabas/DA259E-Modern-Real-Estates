@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Modern_Real_Estates.Controller
 {
+    [Serializable]
     public class Controller
     {
         private Estate estate = null;
 
         //Recieve an index and data from the GUI then create the appropriate object.
-        public Estate createEstate(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, Image image, string propone, string proptwo)
+        public Estate createEstate(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
         {
 
             switch (estateType)
@@ -35,7 +36,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the instituional types.
-        private Estate createInstitutional(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, Image image, string propone, string proptwo)
+        private Estate createInstitutional(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
         {
             Estate estate = null;
             Address address = createAddress(street, zipcode, city, country);
@@ -63,7 +64,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the residential types.
-        private Estate createResidential(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, Image image, string propone, string proptwo)
+        private Estate createResidential(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
         {
             Estate estate = null;
             Address address = createAddress(street, zipcode, city, country);
@@ -92,7 +93,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the commercial class types.
-        private Estate createCommercial(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, Image image, string propone, string proptwo)
+        private Estate createCommercial(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
         {
 
             Estate estate = null;
