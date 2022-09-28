@@ -24,10 +24,10 @@ namespace Modern_Real_Estates.Controller
                         estate = createResidential(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
                 case EstateTypes.Institutional:
-                    estate = createInstitutional(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
+                        estate = createInstitutional(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
                 case EstateTypes.Commercial:
-                    estate = createCommercial(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
+                        estate = createCommercial(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
             }
 
@@ -65,6 +65,7 @@ namespace Modern_Real_Estates.Controller
             //Set the properties specific to the type and specific estate.
             addInstitutionalAttributes(estate, propone, proptwo);
 
+            //Return the object to the createEstate method.
             return estate;
         }
 
@@ -119,8 +120,8 @@ namespace Modern_Real_Estates.Controller
             //Set the properties specific to the type and specific estate.
             addResidentialAttributes(estate, propone, proptwo);
 
+            //Return the object to the createEstate method.
             return estate;
-
         }
 
         //Function to add the attributes for the specific estate and estatetype.
@@ -172,8 +173,8 @@ namespace Modern_Real_Estates.Controller
             //Set the properties specific to the type and specific estate.
             addCommercialAttributes(estate, propone, proptwo);
 
+            //Return the object to the createEstate method.
             return estate;
-
         }
 
         //Function to add the attributes for the specific estate and estatetype.
@@ -204,6 +205,7 @@ namespace Modern_Real_Estates.Controller
             address.City = city;
             address.Country = country;
 
+            //Return the address to the caller.
             return address;
         }
 
