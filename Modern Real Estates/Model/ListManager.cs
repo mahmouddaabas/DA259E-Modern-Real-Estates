@@ -61,7 +61,7 @@ namespace Modern_Real_Estates.Model
         {
             if(aType != null)
             {
-
+                list[anIndex] = aType;
                 return true;
             }
             else

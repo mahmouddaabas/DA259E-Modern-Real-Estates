@@ -16,6 +16,7 @@ namespace Modern_Real_Estates
         private EstateManager eManager = null;
         private bool saveSelected = false;
         private string selectedSavePath;
+        private bool recentlySaved = false;
         public MainView()
         {
             InitializeComponent();
@@ -51,6 +52,72 @@ namespace Modern_Real_Estates
         //Change the information of the selected estate in the list.
         private void change_btn_Click(object sender, EventArgs e)
         {
+            try
+            {
+            //Get the selected object from its tag property.
+            Estate selected = (Estate)list.SelectedItems[0].Tag;
+
+            //Change all shared properties of the object.
+            //selected.ID = id;
+            selected.Type = type_txt.Text;
+            selected.LegalForm = legalform_txt.Text;
+            selected.EstateType = selectedEstateType;
+            selected.Address.City = city_txt.Text;
+            selected.Address.Street = street_txt.Text;
+            selected.Address.Zipcode = zip_txt.Text;
+            selected.Address.Country = Enum.Parse<Countries>(country_txt.Text);
+
+            //Change the object specific properties.
+            switch (selected.print()[1])
+            {
+                case "Warehouse":
+                    ((Commercial)selected).Company = specificpropone_txt.Text;
+                    ((Warehouse)selected).items = specificproptwo_txt.Text;
+                    break;
+                case "Shop":
+                    ((Commercial)selected).Company = specificpropone_txt.Text;
+                    ((Shop)selected).wares = specificproptwo_txt.Text;
+                    break;
+                case "Villa":
+                    ((Residential)selected).Rooms = specificpropone_txt.Text;
+                    ((Villa)selected).size = specificproptwo_txt.Text;
+                    break;
+                case "Apartment":
+                    ((Residential)selected).Rooms = specificpropone_txt.Text;
+                    ((Apartment)selected).rent = specificproptwo_txt.Text;
+                    break;
+                case "Townhouse":
+                    ((Residential)selected).Rooms = specificpropone_txt.Text;
+                    ((Townhouse)selected).floors = specificproptwo_txt.Text;
+                    break;
+                case "Hospital":
+                    ((Institutional)selected).Agency = specificpropone_txt.Text;
+                    ((Hospital)selected).patients = specificproptwo_txt.Text;
+                    break;
+                case "School":
+                    ((Institutional)selected).Agency = specificpropone_txt.Text;
+                    ((School)selected).pupils = specificproptwo_txt.Text;
+                    break;
+                case "University":
+                    ((Institutional)selected).Agency = specificpropone_txt.Text;
+                    ((University)selected).students = specificproptwo_txt.Text;
+                    break;
+            }
+
+                int index = list.Items.IndexOf(list.SelectedItems[0]);
+                eManager.ChangeAt(selected, index);
+                updateEstateList(eManager.ToStringArray());
+                recentlySaved = false;
+
+            }
+            catch (InvalidCastException exx)
+            {
+                MessageBox.Show("You can't change the type of a building!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Select something from the list to edit by pressing on the ID.");
+            }
         }
 
         //Method to populate the country list combobox from the countries enum.
@@ -75,6 +142,7 @@ namespace Modern_Real_Estates
                 list.Items[index].Remove();
                 eManager.DeleteAt(index);
                 updateEstateList(eManager.ToStringArray());
+                recentlySaved = false;
             }
             catch (Exception ex)
             {
@@ -101,6 +169,7 @@ namespace Modern_Real_Estates
                 item.ImageKey = estate.Image;
                 list.Items.Add(item);
             }
+            recentlySaved = false;
             id++;
         }
 
@@ -117,6 +186,9 @@ namespace Modern_Real_Estates
                 item.Text = newList[i].ToString();
                 Estate estate = eManager.GetAt(i);
                 item.Tag = estate;
+
+                //Set the ID to the number of elements in the list in ListManager
+                id = eManager.Count+1;
 
                 if (!string.IsNullOrEmpty(estate.Image))
                 {
@@ -224,11 +296,34 @@ namespace Modern_Real_Estates
             }
         }
 
-        //Restarts the application.
+        //Returns the application to an unused state.
         private void New_Click(object sender, EventArgs e)
         {
-            Application.Restart();
-            Environment.Exit(0);
+            //Check if user has recently saved or not.
+            if(recentlySaved == true)
+            {
+                resetApplication();
+            }
+            else
+            {
+                //If user answers yes reset application.
+                DialogResult dialogResult = MessageBox.Show("Press Yes or No.", "Are you sure you want to reset?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    resetApplication();
+                }
+            }
+        }
+
+        //Method to reset the application to its unused state.
+        private void resetApplication()
+        {
+            //Clear the list on the GUI.
+            list.Items.Clear();
+            //Delete all objects in the list in ListManager and set list to null.
+            eManager.DeleteAll();
+            //Recreate object of the list/estatemanager.
+            eManager = new EstateManager();
         }
 
         //Saves the current state of the application.
@@ -238,6 +333,7 @@ namespace Modern_Real_Estates
             {
                 //If user already opened a save, rewrite it.
                 eManager.BinarySerialize(selectedSavePath);
+                recentlySaved = true;
             }
             else
             {
@@ -257,12 +353,15 @@ namespace Modern_Real_Estates
         {
             System.Windows.Forms.SaveFileDialog saveFileDialog1;
             saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            saveFileDialog1.Filter = "dat files (*.dat)|*.dat";
+            saveFileDialog1.DefaultExt = ".dat";
             DialogResult dr = saveFileDialog1.ShowDialog();
             if (dr == DialogResult.OK)
             {
                 //Save the file at the location specified by the user.
                 string filename = saveFileDialog1.FileName;
                 eManager.BinarySerialize(filename);
+                recentlySaved = true;
             }
         }
 
