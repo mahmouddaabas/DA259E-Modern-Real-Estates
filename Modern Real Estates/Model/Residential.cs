@@ -12,6 +12,10 @@ namespace Modern_Real_Estates.Model
 
         private String rooms;
 
+        public Residential()
+        {
+        }
+
         public Residential(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             : base(id, type, legalform, estateType, address, image)
         {

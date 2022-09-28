@@ -9,6 +9,9 @@ namespace Modern_Real_Estates.Model
     [Serializable]
     public class Hospital : Institutional
     {
+        public Hospital()
+        {
+        }
 
         public Hospital(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             : base(id, type, legalform, estateType, address, image)

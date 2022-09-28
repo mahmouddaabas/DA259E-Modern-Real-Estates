@@ -10,12 +10,16 @@ namespace Modern_Real_Estates.Model
     public class Townhouse : Residential
     {
 
-            public Townhouse(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
-                : base(id, type, legalform, estateType, address, image)
-            {
-            }
+        public Townhouse()
+        {
+        }
 
-            public string floors { get; set; }
+       public Townhouse(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
+                : base(id, type, legalform, estateType, address, image)
+        {
+        }
+
+        public string floors { get; set; }
 
         public override string[] print()
         {

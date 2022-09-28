@@ -31,7 +31,7 @@ namespace Modern_Real_Estates.Controller
                     break;
             }
 
-            //Return the created estate object to the caller.
+            //Return the created estate object to the caller after setting all properties.
             return estate;
         }
 
@@ -44,23 +44,49 @@ namespace Modern_Real_Estates.Controller
             switch (index)
             {
                 case 5:
-                    estate = new Hospital(id, type, legalform, estateType, address, image);
-                    ((Institutional)estate).Agency = propone;
-                    ((Hospital)estate).patients = proptwo;
-                    return estate;
+                    estate = new Hospital();
+                    break;
                 case 6:
-                    estate = new School(id, type, legalform, estateType, address, image);
-                    ((Institutional)estate).Agency = propone;
-                    ((School)estate).pupils = proptwo;
-                    return estate;
+                    estate = new School();
+                    break;
                 case 7:
-                    estate = new University(id, type, legalform, estateType, address, image);
-                    ((Institutional)estate).Agency = propone;
-                    ((University)estate).students = proptwo;
-                    return estate;
+                    estate = new University();
+                    break;
             }
 
+            //Set all the estate properties
+            estate.ID = id;
+            estate.Type = type;
+            estate.LegalForm = legalform;
+            estate.EstateType = estateType;
+            estate.Address = address;
+            estate.Image = image;
+
+            //Set the properties specific to the type and specific estate.
+            addInstitutionalAttributes(estate, propone, proptwo);
+
             return estate;
+        }
+
+        //Function to add the attributes for the specific estate and estatetype.
+        private void addInstitutionalAttributes(Estate estate, string propone, string proptwo)
+        {
+            //Add the attribute that is shared by all instituional estates.
+            ((Institutional)estate).Agency = propone;
+
+            //Set the attribute for the specific estate.
+            switch (estate.Type)
+            {
+                case "Hospital":
+                    ((Hospital)estate).patients = proptwo;
+                    break;
+                case "School":
+                    ((School)estate).pupils = proptwo;
+                    break;
+                case "University":
+                    ((University)estate).students = proptwo;
+                    break;
+            }
         }
 
         //Method to create all the residential types.
@@ -72,24 +98,50 @@ namespace Modern_Real_Estates.Controller
             switch (index)
             {
                 case 1:
-                    estate = new Apartment(id, type, legalform, estateType, address, image);
-                    ((Residential)estate).Rooms = propone;
-                    ((Apartment)estate).rent = proptwo;
-                    return estate;
+                    estate = new Apartment();
+                    break;
                 case 3:
-                    estate = new Villa(id, type, legalform, estateType, address, image);
-                    ((Residential)estate).Rooms = propone;
-                    ((Villa)estate).size = proptwo;
-                    return estate;
+                    estate = new Villa();
+                    break;
                 case 4:
-                    estate = new Townhouse(id, type, legalform, estateType, address, image);
-                    ((Residential)estate).Rooms = propone;
-                    ((Townhouse)estate).floors = proptwo;
-                    return estate;
+                    estate = new Townhouse();
+                    break;
             }
+
+            //Set all the estate properties
+            estate.ID = id;
+            estate.Type = type;
+            estate.LegalForm = legalform;
+            estate.EstateType = estateType;
+            estate.Address = address;
+            estate.Image = image;
+
+            //Set the properties specific to the type and specific estate.
+            addResidentialAttributes(estate, propone, proptwo);
 
             return estate;
 
+        }
+
+        //Function to add the attributes for the specific estate and estatetype.
+        private void addResidentialAttributes(Estate estate, string propone, string proptwo)
+        {
+            //Add the attribute that is shared by all residential estates.
+            ((Residential)estate).Rooms = propone;
+
+            //Set the attribute for the specific estate.
+            switch (estate.Type)
+            {
+                case "Apartment":
+                    ((Apartment)estate).rent = proptwo;
+                    break;
+                case "Villa":
+                    ((Villa)estate).size = proptwo;
+                    break;
+                case "Townhouse":
+                    ((Townhouse)estate).floors = proptwo;
+                    break;
+            }
         }
 
         //Method to create all the commercial class types.
@@ -102,19 +154,44 @@ namespace Modern_Real_Estates.Controller
             switch (index)
             {
                 case 0:
-                    estate = new Warehouse(id, type, legalform, estateType, address, image);
-                    ((Commercial)estate).Company = propone;
-                    ((Warehouse)estate).items = proptwo;
-                    return estate;
+                    estate = new Warehouse();
+                    break;
                 case 2:
-                    estate = new Shop(id, type, legalform, estateType, address, image);
-                    ((Commercial)estate).Company = propone;
-                    ((Shop)estate).wares = proptwo;
-                    return estate;
+                    estate = new Shop();
+                    break;
             }
+
+            //Set all the estate properties
+            estate.ID = id;
+            estate.Type = type;
+            estate.LegalForm = legalform;
+            estate.EstateType = estateType;
+            estate.Address = address;
+            estate.Image = image;
+
+            //Set the properties specific to the type and specific estate.
+            addCommercialAttributes(estate, propone, proptwo);
 
             return estate;
 
+        }
+
+        //Function to add the attributes for the specific estate and estatetype.
+        private void addCommercialAttributes(Estate estate, string propone, string proptwo)
+        {
+            //Add the attribute that is shared by all commercial estates.
+            ((Commercial)estate).Company = propone;
+
+            //Set the attribute for the specific estate.
+            switch (estate.Type)
+            {
+                case "Warehouse":
+                    ((Warehouse)estate).items = proptwo;
+                    break;
+                case "Shop":
+                    ((Shop)estate).wares = proptwo;
+                    break;
+            }
         }
 
         //Method to create an address.

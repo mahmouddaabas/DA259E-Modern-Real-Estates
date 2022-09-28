@@ -10,6 +10,10 @@ namespace Modern_Real_Estates.Model
     public class University : Institutional
     {
 
+        public University()
+        {
+        }
+
         public University(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             : base(id, type, legalform, estateType, address, image)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,6 +10,11 @@ namespace Modern_Real_Estates.Model
     [Serializable]
     public class Apartment : Residential
     {
+
+
+        public Apartment()
+        {
+        }
 
         public Apartment(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             :base (id, type, legalform, estateType, address, image)

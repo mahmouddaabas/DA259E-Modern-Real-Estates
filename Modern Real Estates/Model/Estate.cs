@@ -20,6 +20,10 @@ namespace Modern_Real_Estates.Model
             Image = image;
         }
 
+        public Estate()
+        {
+        }
+
         public abstract string[] print();
 
         public int ID { get; set; }
