@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Modern_Real_Estates_DAL</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Modern Real Estates BLL">
+      <HintPath>..\Modern Real Estates BLL\bin\Debug\net6.0\Modern Real Estates BLL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_BLL
 {
-    internal interface IEstate
+    public interface IEstate
     {
         int ID { get; set; }
     }

@@ -1,6 +1,8 @@
-using Modern_Real_Estates.Model;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+//Use the DLL we created from the class library.
+using Modern_Real_Estates_BLL;
+using Modern_Real_Estates_DAL;
 
 namespace Modern_Real_Estates
 {
@@ -8,21 +10,19 @@ namespace Modern_Real_Estates
     public partial class MainView : Form
     {
 
-        private Controller.Controller controller;
+        private Controller controller;
         private int id = 0;
         private String selectedImage = "";
         private ImageList imageList;
         private EstateTypes selectedEstateType;
-        private EstateManager eManager = null;
         private bool saveSelected = false;
         private string selectedSavePath;
         private bool recentlySaved = false;
         public MainView()
         {
             InitializeComponent();
-            controller = new Controller.Controller();
+            controller = new Controller();
             imageList = new ImageList();
-            eManager = new EstateManager();
 
             //Populate the country list on the GUI.
             populateCountryList();
@@ -38,7 +38,7 @@ namespace Modern_Real_Estates
                 Estate estate = controller.createEstate(type_txt.SelectedIndex, id, type_txt.Text, legalform_txt.Text, selectedEstateType, street_txt.Text, zip_txt.Text, city_txt.Text, Enum.Parse<Countries>(country_txt.GetItemText(country_txt.SelectedItem)), selectedImage, specificpropone_txt.Text, specificproptwo_txt.Text);
 
                 //Adds the returned estate object through the parameter to the ListManager list.
-                eManager.Add(estate);
+                controller.addEstateToManager(estate);
 
                 //Adds the estate to the GUI.
                 AddToList();
@@ -50,6 +50,8 @@ namespace Modern_Real_Estates
         }
 
         //Change the information of the selected estate in the list.
+
+        //tip: Modify object in estate manager instead.
         private void change_btn_Click(object sender, EventArgs e)
         {
             try
@@ -105,8 +107,8 @@ namespace Modern_Real_Estates
             }
 
                 int index = list.Items.IndexOf(list.SelectedItems[0]);
-                eManager.ChangeAt(selected, index);
-                updateEstateList(eManager.ToStringArray());
+                controller.estateManagerChangeAt(selected, index);
+                updateEstateList(controller.getEstateManagerToStringArray());
                 recentlySaved = false;
 
             }
@@ -140,8 +142,8 @@ namespace Modern_Real_Estates
             {
                 int index = list.Items.IndexOf(list.SelectedItems[0]);
                 list.Items[index].Remove();
-                eManager.DeleteAt(index);
-                updateEstateList(eManager.ToStringArray());
+                controller.estateManagerDeleteAt(index);
+                updateEstateList(controller.getEstateManagerToStringArray());
                 recentlySaved = false;
             }
             catch (Exception ex)
@@ -160,10 +162,10 @@ namespace Modern_Real_Estates
             list.SmallImageList = imageList;
 
             //Add the new objects from the list in the ListManager to the GUI.
-            for (int i = 0; i < eManager.Count; i++)
+            for (int i = 0; i < controller.getEstateManagerCount(); i++)
             {
                 ListViewItem item = new ListViewItem();
-                Estate estate = eManager.GetAt(i);
+                Estate estate = controller.estateManagerGetAt(i);
                 item.Text = estate.ToString();
                 item.Tag = estate;
                 item.ImageKey = estate.Image;
@@ -180,15 +182,15 @@ namespace Modern_Real_Estates
 
             //Clear the current list in the GUI.
             list.Items.Clear();
-            for(int i = 0; i < eManager.Count; i++)
+            for(int i = 0; i < controller.getEstateManagerCount(); i++)
             {
                 ListViewItem item = new ListViewItem();
                 item.Text = newList[i].ToString();
-                Estate estate = eManager.GetAt(i);
+                Estate estate = controller.estateManagerGetAt(i);
                 item.Tag = estate;
 
                 //Set the ID to the number of elements in the list in ListManager
-                id = eManager.Count+1;
+                id = controller.getEstateManagerCount()+1;
 
                 if (!string.IsNullOrEmpty(estate.Image))
                 {
@@ -290,9 +292,9 @@ namespace Modern_Real_Estates
                 selectedSavePath = openFileDialog1.FileName;
                 saveSelected = true;
                 //Save the file by serializing it.
-                eManager.BinaryDeSerialize(openFileDialog1.FileName);
+                controller.estateManagerBinaryDeSerialize(openFileDialog1.FileName);
                 //Update the list to show the file on the GUI.
-                updateEstateList(eManager.ToStringArray());
+                updateEstateList(controller.getEstateManagerToStringArray());
             }
         }
 
@@ -321,9 +323,9 @@ namespace Modern_Real_Estates
             //Clear the list on the GUI.
             list.Items.Clear();
             //Delete all objects in the list in ListManager and set list to null.
-            eManager.DeleteAll();
+            controller.estateManagerDeleteAll();
             //Recreate object of the list/estatemanager.
-            eManager = new EstateManager();
+            controller.createNewEstateManager();
         }
 
         //Saves the current state of the application.
@@ -332,7 +334,7 @@ namespace Modern_Real_Estates
             if(saveSelected == true)
             {
                 //If user already opened a save, rewrite it.
-                eManager.BinarySerialize(selectedSavePath);
+                controller.estateManagerBinarySerialize(selectedSavePath);
                 recentlySaved = true;
             }
             else
@@ -360,7 +362,7 @@ namespace Modern_Real_Estates
             {
                 //Save the file at the location specified by the user.
                 string filename = saveFileDialog1.FileName;
-                eManager.BinarySerialize(filename);
+                controller.estateManagerBinarySerialize(filename);
                 recentlySaved = true;
             }
         }

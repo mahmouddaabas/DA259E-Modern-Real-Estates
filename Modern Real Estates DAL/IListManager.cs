@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_DAL
 {
     /// <summary>
     /// Interface for implementation by manager classes hosting a collection

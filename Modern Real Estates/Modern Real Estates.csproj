@@ -13,4 +13,13 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Modern Real Estates BLL">
+      <HintPath>..\Modern Real Estates BLL\bin\Debug\net6.0\Modern Real Estates BLL.dll</HintPath>
+    </Reference>
+    <Reference Include="Modern Real Estates DAL">
+      <HintPath>..\Modern Real Estates DAL\bin\Debug\net6.0\Modern Real Estates DAL.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

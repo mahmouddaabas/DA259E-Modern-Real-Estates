@@ -1,4 +1,6 @@
-namespace Modern_Real_Estates.Controller
+using Modern_Real_Estates;
+
+namespace Modern_Real_Estates_DAL
 {
     [Serializable]
     internal static class Program

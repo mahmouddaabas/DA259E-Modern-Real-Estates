@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modern_Real_Estates_BLL;
+using Modern_Real_Estates_DAL;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_DAL
 {
     [Serializable]
-    internal class EstateManager : ListManager<Estate>
+    public class EstateManager : ListManager<Estate>
     {
         public EstateManager()
         {

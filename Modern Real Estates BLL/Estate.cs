@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_BLL
 {
     [Serializable]
     public abstract class Estate : IEstate

@@ -4,27 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_BLL
 {
     [Serializable]
-    public abstract class Commercial : Estate
+    public abstract class Residential : Estate
     {
 
-        private String company;
+        private String rooms;
 
-        public Commercial()
+        public Residential()
         {
         }
 
-        public Commercial(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
+        public Residential(int id, String type, String legalform, EstateTypes estateType, Address address, String image)
             : base(id, type, legalform, estateType, address, image)
         {
         }
 
-        public string Company
+        public string Rooms
         {
-            get{ return company; }
-            set { company = value; }
+            get { return rooms; }
+            set { rooms = value; }
         }
 
         public override string[] print()

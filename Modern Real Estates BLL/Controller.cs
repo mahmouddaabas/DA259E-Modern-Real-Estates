@@ -1,33 +1,40 @@
-﻿using Modern_Real_Estates.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Modern_Real_Estates_BLL;
 
-namespace Modern_Real_Estates.Controller
+namespace Modern_Real_Estates_DAL
 {
     [Serializable]
     public class Controller
     {
         private Estate estate = null;
+        private EstateManager eManager = null;
+
+        //Constructor
+        public Controller()
+        {
+            eManager = new EstateManager();
+        }
 
         //Recieve an index and data from the GUI then create the appropriate object.
-        public Estate createEstate(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
+        public Estate createEstate(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, string image, string propone, string proptwo)
         {
 
             switch (estateType)
             {
                 //Call method to create an object based on the estate type.
                 case EstateTypes.Residential:
-                        estate = createResidential(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
+                    estate = createResidential(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
                 case EstateTypes.Institutional:
-                        estate = createInstitutional(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
+                    estate = createInstitutional(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
                 case EstateTypes.Commercial:
-                        estate = createCommercial(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
+                    estate = createCommercial(index, id, type, legalform, estateType, street, zipcode, city, country, image, propone, proptwo);
                     break;
             }
 
@@ -36,7 +43,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the instituional types.
-        private Estate createInstitutional(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
+        private Estate createInstitutional(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, string image, string propone, string proptwo)
         {
             Estate estate = null;
             Address address = createAddress(street, zipcode, city, country);
@@ -91,7 +98,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the residential types.
-        private Estate createResidential(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
+        private Estate createResidential(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, string image, string propone, string proptwo)
         {
             Estate estate = null;
             Address address = createAddress(street, zipcode, city, country);
@@ -146,7 +153,7 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Method to create all the commercial class types.
-        private Estate createCommercial(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, String image, string propone, string proptwo)
+        private Estate createCommercial(int index, int id, string type, string legalform, EstateTypes estateType, string street, string zipcode, string city, Countries country, string image, string propone, string proptwo)
         {
 
             Estate estate = null;
@@ -210,9 +217,9 @@ namespace Modern_Real_Estates.Controller
         }
 
         //Return all the countries in a list to populate the combobox in the GUI.
-        public List<String> GetAllCountries()
+        public List<string> GetAllCountries()
         {
-            var countryList = new List<String>();
+            var countryList = new List<string>();
 
             foreach (string name in Enum.GetNames(typeof(Countries)))
             {
@@ -220,6 +227,66 @@ namespace Modern_Real_Estates.Controller
                 Console.WriteLine(name);
             }
             return countryList;
+        }
+
+        //Method to add the estate to the collection in the ListManager.
+        public void addEstateToManager(Estate estate)
+        {
+            eManager.Add(estate);
+        }
+
+        //Function to change the selected estate at the selected index.
+        public void estateManagerChangeAt(Estate selected, int index)
+        {
+            eManager.ChangeAt(selected, index);
+        }
+
+        //Returns an array of the objects in the list from the ListManager.
+        public string[] getEstateManagerToStringArray()
+        {
+            return eManager.ToStringArray();
+        }
+
+        //Deletes an object on the selected index in the list.
+        public void estateManagerDeleteAt(int index)
+        {
+            eManager.DeleteAt(index);
+        }
+
+        //Returns the amount of objects in the EstateManager list.
+        public int getEstateManagerCount()
+        {
+            return eManager.Count;
+        }
+
+        //Returns the estate on the selected index from the EstateManager.
+        public Estate estateManagerGetAt(int i)
+        {
+            return eManager.GetAt(i);
+        }
+
+        //Deserializes the object list in the EstateManager from the selected path.
+        public void estateManagerBinaryDeSerialize(string filename)
+        {
+            eManager.BinaryDeSerialize(filename);
+        }
+
+        //Serializes the object list in the EstateManager and saves it to the desired path.
+        public void estateManagerBinarySerialize(string filename)
+        {
+            eManager.BinarySerialize(filename);
+        }
+
+        //Deletes all the object from the EstateManager list and set it to null.
+        public void estateManagerDeleteAll()
+        {
+            eManager.DeleteAll();
+        }
+
+        //Creates a new object of the estate manager.
+        public void createNewEstateManager()
+        {
+            eManager = new EstateManager();
         }
     }
 }

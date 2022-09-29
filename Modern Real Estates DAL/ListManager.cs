@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace Modern_Real_Estates.Model
+namespace Modern_Real_Estates_DAL
 {
     [Serializable]
-    internal class ListManager<T> : IListManager<T>
+    public class ListManager<T> : IListManager<T>
     {
 
         List<T> list;
@@ -26,7 +26,7 @@ namespace Modern_Real_Estates.Model
 
         public bool Add(T aType)
         {
-            if(aType != null)
+            if (aType != null)
             {
                 list.Add(aType);
                 return true;
@@ -59,7 +59,7 @@ namespace Modern_Real_Estates.Model
 
         public bool ChangeAt(T aType, int anIndex)
         {
-            if(aType != null)
+            if (aType != null)
             {
                 list[anIndex] = aType;
                 return true;
@@ -83,7 +83,7 @@ namespace Modern_Real_Estates.Model
 
         public bool DeleteAt(int anIndex)
         {
-            if(anIndex >= 0)
+            if (anIndex >= 0)
             {
                 list.RemoveAt(anIndex);
                 return true;
@@ -96,17 +96,17 @@ namespace Modern_Real_Estates.Model
 
         public T GetAt(int anIndex)
         {
-           if(anIndex >= 0)
+            if (anIndex >= 0)
             {
                 return list[anIndex];
             }
-            return default(T);
+            return default;
         }
 
         public string[] ToStringArray()
         {
             string[] listToStringArray = new string[list.Count];
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 listToStringArray[i] = list[i].ToString();
             }
@@ -120,7 +120,7 @@ namespace Modern_Real_Estates.Model
 
         public bool XMLSerialize(string fileName)
         {
-            XmlSerializer s = new XmlSerializer(typeof(T)); 
+            XmlSerializer s = new XmlSerializer(typeof(T));
             TextWriter w = new StreamWriter(fileName);
             string errorMsg = null;
             try
@@ -128,7 +128,7 @@ namespace Modern_Real_Estates.Model
                 s.Serialize(w, list);
                 return true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 errorMsg = e.Message;
                 return false;
